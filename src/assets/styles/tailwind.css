@@ -4,31 +4,20 @@
 
 @layer utilities {
   .bg-page {
-    background-color: var(--bg-base); /* Default background color */
+    background-color: var(--bg-base);
   }
   .bg-dark {
-    background-color: var(--bg-crust); /* Default dark background color */
+    background-color: var(--bg-crust);
   }
   .bg-light {
-    background-color: var(--bg-mantle); /* Default light background color */
-  }
-
-  /* Dark mode background classes */
-  .dark .bg-page {
-    background-color: var(--bg-base); /* Dark mode background color */
-  }
-  .dark .bg-dark {
-    background-color: var(--bg-crust); /* Dark mode dark background color */
-  }
-  .dark .bg-light {
-    background-color: var(--bg-mantle); /* Dark mode light background color */
+    background-color: var(--bg-mantle);
   }
 
   .text-page {
-    color: var(--bg-text); /* Default text color */
+    color: var(--bg-text);
   }
   .text-muted {
-    color: var(--bg-subtext1); /* Default muted text color */
+    color: var(--bg-subtext1);
   }
 }
 
