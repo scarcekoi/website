@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--bg-base)',
-        secondary: 'var(--bg-crust)',
-        accent: 'var(--bg-mauve)',
-        default: 'var(--bg-text)',
-        muted: 'var(--bg-color-subtext1)',
+        primary: 'var(--aw-color-primary)',
+        secondary: 'var(--aw-color-secondary)',
+        accent: 'var(--aw-color-accent)',
+        default: 'var(--aw-color-text-default)',
+        muted: 'var(--aw-color-text-muted)',
         rosewater: {
           light: '#dc8a78',
           dark: '#f5e0dc',
@@ -141,4 +141,5 @@ export default {
       addVariant('intersect', '&:not([no-intersect])');
     }),
   ],
+  darkMode: 'class',
 };

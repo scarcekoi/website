@@ -4,19 +4,19 @@
 
 @layer utilities {
   .bg-page {
-    background-color: var(--bg-base);
+    background-color: var(--aw-color-bg-page);
   }
   .bg-dark {
-    background-color: var(--bg-base-dark);
+    background-color: var(--aw-color-bg-page-dark);
   }
   .bg-light {
-    background-color: var(--bg-base-light);
+    background-color: var(--aw-color-bg-page);
   }
   .text-page {
-    color: var(--bg-text);
+    color: var(--aw-color-text-page);
   }
   .text-muted {
-    color: var(--bg-text);
+    color: var(--aw-color-text-muted);
   }
 }
 
