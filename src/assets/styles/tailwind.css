@@ -7,17 +7,24 @@
     background-color: var(--bg-base);
   }
   .bg-dark {
-    background-color: var(--bg-crust);
+    background-color: var(--bg-base-dark);
   }
   .bg-light {
-    background-color: var(--bg-mantle);
+    background-color: var(--bg-base-light);
   }
 
-  .text-page {
-    color: var(--bg-text);
+  .dark .text-page {
+    color: var(--bg-text-dark);
   }
-  .text-muted {
-    color: var(--bg-subtext1);
+  .dark .text-muted {
+    color: var(--bg-subtext1-dark);
+  }
+
+  .light .text-page {
+    color: var(--bg-text-light);
+  }
+  .light .text-muted {
+    color: var(--bg-subtext1-light);
   }
 }
 
