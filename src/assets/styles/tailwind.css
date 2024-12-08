@@ -4,19 +4,19 @@
 
 @layer utilities {
   .bg-page {
-    background-color: var(--bg-base); /* Updated to use the correct custom color */
+    background-color: var(--bg-base); /* Keep the background as is */
   }
   .bg-dark {
-    background-color: var(--bg-crust); /* Updated to use the correct custom color */
+    background-color: var(--bg-crust); /* Keep the background as is */
   }
   .bg-light {
-    background-color: var(--bg-mantle); /* Updated to use the correct custom color */
+    background-color: var(--bg-mantle); /* Keep the background as is */
   }
   .text-page {
-    color: var(--bg-text); /* Ensure this uses the correct custom color variable */
+    color: var(--bg-text); /* Use the updated text color variable */
   }
   .text-muted {
-    color: var(--bg-subtext1); /* Ensure this uses the correct custom color variable */
+    color: var(--bg-subtext1); /* Use the updated muted text color variable */
   }
 }
 
@@ -48,10 +48,6 @@
   @apply bg-page md:bg-[#030621e6] border-b border-gray-500/20;
   box-shadow: none;
 }
-
-/* #header.scroll > div:last-child {
-  @apply py-3;
-} */
 
 #header.expanded nav {
   position: fixed;
