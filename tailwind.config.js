@@ -7,6 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: 'var(--bg-base)',
+        secondary: 'var(--bg-crust)',
+        accent: 'var(--bg-mauve)',
+        default: 'var(--bg-text)',
+        muted: 'var(--bg-color-subtext1)',
         rosewater: {
           light: '#dc8a78',
           dark: '#f5e0dc',
