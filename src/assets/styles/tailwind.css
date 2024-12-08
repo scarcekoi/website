@@ -4,19 +4,31 @@
 
 @layer utilities {
   .bg-page {
-    background-color: var(--bg-base); /* Keep the background as is */
+    background-color: var(--bg-base); /* Default background color */
   }
   .bg-dark {
-    background-color: var(--bg-crust); /* Keep the background as is */
+    background-color: var(--bg-crust); /* Default dark background color */
   }
   .bg-light {
-    background-color: var(--bg-mantle); /* Keep the background as is */
+    background-color: var(--bg-mantle); /* Default light background color */
   }
+
+  /* Dark mode background classes */
+  .dark .bg-page {
+    background-color: var(--bg-base); /* Dark mode background color */
+  }
+  .dark .bg-dark {
+    background-color: var(--bg-crust); /* Dark mode dark background color */
+  }
+  .dark .bg-light {
+    background-color: var(--bg-mantle); /* Dark mode light background color */
+  }
+
   .text-page {
-    color: var(--bg-text); /* Use the updated text color variable */
+    color: var(--bg-text); /* Default text color */
   }
   .text-muted {
-    color: var(--bg-subtext1); /* Use the updated muted text color variable */
+    color: var(--bg-subtext1); /* Default muted text color */
   }
 }
 
