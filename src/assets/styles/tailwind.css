@@ -16,7 +16,7 @@
     color: var(--bg-text);
   }
   .text-muted {
-    color: var(--aw-color-text-muted);
+    color: var(--bg-subtext1);
   }
 }
 
