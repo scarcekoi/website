@@ -6,16 +6,20 @@ export const headerData = {
       text: 'Projects',
       links: [
         {
+          text: 'Projects Home',
+          href: getPermalink('/projects'),
+        },
+        {
           text: 'House Information',
           href: getPermalink('/projects/house-information'),
-        },  
+        },
       ],
     },
     {
       text: 'Blog',
       links: [
         {
-          text: 'Blog Posts',
+          text: 'Blog Home',
           href: getBlogPermalink(),
         }
       ],
@@ -29,12 +33,6 @@ export const footerData = {
       title: 'Projects',
       links: [
         { text: 'House Information', href: 'house-information' },
-        { text: 'Blog', href: '#' },
-        { text: 'Careers', href: '#' },
-        { text: 'Press', href: '#' },
-        { text: 'Inclusion', href: '#' },
-        { text: 'Social Impact', href: '#' },
-        { text: 'Shop', href: '#' },
       ],
     },
   ],
@@ -42,5 +40,6 @@ export const footerData = {
     { ariaLabel: 'YouTube', icon: 'tabler:brand-youtube', href: 'https://www.youtube.com/@scarcekoi' },
     { ariaLabel: 'Discord', icon: 'tabler:brand-discord', href: 'https://discord.gg/X8QBgNdRFd' },
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/scarcekoi' },
+    //{ ariaLabel: 'Mastodon', icon: 'tabler:brand-mastodon', href: 'https://mastodon.social/@scarcekoi' },
   ],
 };
