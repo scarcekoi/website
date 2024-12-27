@@ -32,7 +32,7 @@ export const footerData = {
     {
       title: 'Projects',
       links: [
-        { text: 'House Information', href: 'house-information' },
+        { text: 'House Information', href: 'projects/house-information' },
       ],
     },
   ],
