@@ -17,12 +17,7 @@ export const headerData = {
     },
     {
       text: 'Blog',
-      links: [
-        {
-          text: 'Blog Home',
-          href: getBlogPermalink(),
-        }
-      ],
+      href: getBlogPermalink(),
     },  
   ],
 };
