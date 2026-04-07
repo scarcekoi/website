@@ -66,11 +66,24 @@
     }, LONG_PRESS_MS);
   };
 
+  let toastState = $state<"hidden" | "success" | "failed">("hidden");
+  let toastTimer: ReturnType<typeof setTimeout>;
+
+  const showToast = (success: boolean) => {
+    toastState = success ? "success" : "failed";
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => (toastState = "hidden"), 2000);
+  };
+
   const handlePointerUp = async () => {
     clearTimeout(pressTimer);
-
     if (!longPress) {
-      await navigator.clipboard.writeText(hex);
+      try {
+        await navigator.clipboard.writeText(hex);
+        showToast(true);
+      } catch {
+        showToast(false);
+      }
     }
   };
 
@@ -89,6 +102,12 @@
 >
   {@render children()}
 </div>
+
+{#if toastState !== "hidden"}
+  <div class="toast {toastState}">
+    {toastState === "success" ? "Hex copied!" : "Failed to copy"}
+  </div>
+{/if}
 
 {#if visible}
   <div class="context-menu" style={`left: ${x}px; top: ${y}px`} onclick={(e) => e.stopPropagation()}>
@@ -144,7 +163,7 @@
   }
 
   .close-btn {
-    background: none;
+    background: var(--mantle);
     border: none;
     border-radius: var(--border-radius-normal);
     color: var(--subtext0);
@@ -197,5 +216,41 @@
 
   .menu-value {
     color: inherit;
+  }
+
+  .toast {
+    position: fixed;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    padding: 0.75rem 2rem;
+    border-radius: var(--border-radius-normal);
+    background: var(--base);
+    font-family: monospace;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: toast-in 0.2s ease forwards;
+
+    &.success {
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    &.failed {
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+  }
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
   }
 </style>

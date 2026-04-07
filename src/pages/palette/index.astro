@@ -63,6 +63,7 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
                   <FlavorName flavor={flavorName} bold={false} />
                 </h2>
               </summary>
+              <p class="flavor-hint">Click to copy hex • Hold for more formats</p>
               <div class="color-list">
                 {Object.values(flavor.colors).map(({ hex, rgb, hsl, oklch, name }) => (
                   <ColorContextMenu client:load {name} {hex} rgb={toRgb(rgb)} hsl={toHsl(hsl)} oklch={toOklch(oklch)}>
@@ -89,6 +90,14 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
 
     summary {
       cursor: pointer;
+    }
+
+    .flavor-hint {
+      font-size: 1.5rem;
+      color: var(--subtext0);
+      margin-block-start: 0.25rem;
+      margin-block-end: 0;
+      font-family: monospace;
     }
 
     .flavor {

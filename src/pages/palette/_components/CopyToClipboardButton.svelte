@@ -27,6 +27,27 @@
       stateClass = STATE.ready;
     }, 2000);
   };
+
+  let toastState = $state<"hidden" | "success" | "failed">("hidden");
+  let toastTimer: ReturnType<typeof setTimeout>;
+
+  const showToast = (success: boolean) => {
+    toastState = success ? "success" : "failed";
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => (toastState = "hidden"), 2000);
+  };
+
+  const handlePointerUp = async () => {
+    clearTimeout(pressTimer);
+    if (!longPress) {
+      try {
+        await navigator.clipboard.writeText(hex);
+        showToast(true);
+      } catch {
+        showToast(false);
+      }
+    }
+  };
 </script>
 
 <button class="btn btn-small btn-transparent {stateClass}" onclick={copyToClipboard}>
