@@ -226,11 +226,11 @@
     z-index: 2000;
     padding: 0.75rem 2rem;
     border-radius: var(--border-radius-normal);
-    background: var(--base);
+    background: var(--mantle);
     font-family: monospace;
     font-size: 2rem;
     pointer-events: none;
-    animation: toast-in 0.2s ease forwards;
+    animation: toast-in 0.2s ease forwards, toast-out 0.2s ease 1.8s forwards;
 
     &.success {
       color: var(--green);
@@ -251,6 +251,16 @@
     to {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
+    }
+  }
+  @keyframes toast-out {
+    from {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-50%) translateY(0.5rem);
     }
   }
 </style>
