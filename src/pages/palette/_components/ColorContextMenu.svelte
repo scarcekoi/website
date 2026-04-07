@@ -40,7 +40,7 @@
 </div>
 
 {#if visible}
-  <div class="context-menu" style={`left: ${x}px; top: ${y}px`}>
+  <div class="context-menu" style={`left: ${x}px; top: ${y}px`} onclick={(e) => e.stopPropagation()}>
     <div class="menu-title">{name}</div>
     <div class="menu-items">
       {#each [["HEX", hex], ["RGB", rgb], ["HSL", hsl], ["OKLCH", oklch]] as [label, value]}
@@ -69,6 +69,7 @@
     background: var(--base);
     border: 1px solid var(--surface0);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    text-align: left;
   }
 
   .menu-title {
@@ -86,10 +87,22 @@
     flex-direction: column;
   }
 
+  .menu-items :global(button) {
+    text-align: left;
+  }
+
   .menu-label {
     color: var(--subtext0);
     min-width: 3.5rem;
     display: inline-block;
+  }
+
+  .menu-items :global(button.success .menu-label) {
+    color: var(--green);
+  }
+
+  .menu-items :global(button.failed .menu-label) {
+    color: var(--red);
   }
 
   .menu-value {
