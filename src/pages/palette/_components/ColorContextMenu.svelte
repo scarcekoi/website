@@ -27,8 +27,14 @@
 
   const onContextMenu = (e: MouseEvent) => {
     e.stopPropagation();
-    x = e.clientX + window.scrollX;
-    y = e.clientY + window.scrollY;
+    const menuWidth = 240;
+    const menuHeight = 160;
+    const cx = e.clientX + window.scrollX;
+    const cy = e.clientY + window.scrollY;
+
+    x = e.clientX + menuWidth > window.innerWidth ? Math.max(0, cx - menuWidth) : cx;
+    y = e.clientY + menuHeight > window.innerHeight ? cy - menuHeight : cy;
+
     openMenuId.set(id);
   };
 </script>
@@ -41,7 +47,10 @@
 
 {#if visible}
   <div class="context-menu" style={`left: ${x}px; top: ${y}px`} onclick={(e) => e.stopPropagation()}>
-    <div class="menu-title">{name}</div>
+    <div class="menu-header">
+      <div class="menu-title">{name}</div>
+      <button class="close-btn" onclick={() => openMenuId.set(null)}>✕</button>
+    </div>
     <div class="menu-items">
       {#each [["HEX", hex], ["RGB", rgb], ["HSL", hsl], ["OKLCH", oklch]] as [label, value]}
         <CopyToClipboardIcon value={value}>
@@ -63,7 +72,8 @@
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    min-width: 240px;
+    max-width: calc(100vw - 1rem);
+    min-width: 200px;
     padding: 0.5rem;
     border-radius: var(--border-radius-normal);
     background: var(--base);
@@ -77,9 +87,31 @@
     font-weight: bold;
     padding: 0.25rem 0.5rem 0.5rem;
     color: var(--text);
+    font-family: monospace;
+  }
+
+  .menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid var(--surface0);
     margin-bottom: 0.25rem;
-    font-family: monospace;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    border-radius: var(--border-radius-normal);
+    color: var(--subtext0);
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    font-size: 2rem;
+    line-height: 1;
+
+    &:hover {
+      color: var(--text);
+      background: var(--surface0);
+    }
   }
 
   .menu-items {
@@ -88,7 +120,12 @@
   }
 
   .menu-items :global(button) {
+    background: var(--base);
     text-align: left;
+
+    &:hover {
+      background: var(--surface0);
+    }
   }
 
   .menu-label {
@@ -104,6 +141,14 @@
   .menu-items :global(button.failed .menu-label) {
     color: var(--red);
   }
+
+    .menu-items :global(button.success) {
+      background: var(--surface0);
+    }
+
+    .menu-items :global(button.failed) {
+      background: var(--surface0);
+    }
 
   .menu-value {
     color: inherit;
