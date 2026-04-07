@@ -243,6 +243,24 @@
     }
   }
 
+  @media (max-width: 600px) {
+    .context-menu {
+      font-size: 1.5rem;
+    }
+
+    .menu-title {
+      font-size: 1.75rem;
+    }
+
+    .menu-items :global(button) {
+      font-size: 1.5rem;
+    }
+
+    .close-btn {
+      font-size: 2.5rem;
+    }
+  }
+
   @keyframes toast-in {
     from {
       opacity: 0;
