@@ -1,24 +1,50 @@
 ---
-import { flavorEntries, type ColorFormat } from "@catppuccin/palette";
+import { flavors } from "@catppuccin/palette";
 
 import { githubUrl } from "@data/links";
 
 import Default from "@layouts/Default.astro";
 
 import PageIntro from "@components/PageIntro.astro";
+import ColorRow from "./_components/ColorRow.svelte";
 
-// import CopyToClipboardIcon from "./_components/CopyToClipboardButton.svelte";
-import ColorContextMenu from "./_components/ColorContextMenu.svelte";
-import FlavorName from "./_components/FlavorName.astro";
+const flavorNames = ["latte", "frappe", "macchiato", "mocha"] as const;
 
-const toRgb = (rgb: ColorFormat["rgb"]) => {
-  return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-};
-const toHsl = (hsl: ColorFormat["hsl"]) => {
-  return `hsl(${Math.round(hsl.h)}deg, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%)`;
-};
-const toOklch = (oklch: ColorFormat["oklch"]) => {
-  return `oklch(${Math.round(oklch.l * 100)}%, ${Math.round(oklch.c * 100)}% ${Math.round(oklch.h)}deg)`;
+// Get all color names from the first flavor (they're the same across all flavors)
+const colorNames = Object.keys(flavors.mocha.colors);
+
+// Group colors by category for better organization
+const colorGroups = {
+  "Base Colors": [
+    "rosewater",
+    "flamingo",
+    "pink",
+    "mauve",
+    "red",
+    "maroon",
+    "peach",
+    "yellow",
+    "green",
+    "teal",
+    "sky",
+    "sapphire",
+    "blue",
+    "lavender",
+  ],
+  "Text & Surface": [
+    "text",
+    "subtext1",
+    "subtext0",
+    "overlay2",
+    "overlay1",
+    "overlay0",
+    "surface2",
+    "surface1",
+    "surface0",
+    "base",
+    "mantle",
+    "crust",
+  ],
 };
 ---
 
@@ -26,66 +52,45 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
   title="Palette • Catppuccin"
   description="Dive into Catppuccin's palette: four unique pastel color palettes named 'flavors'. Ideal for your next project!">
   <PageIntro title="Palette">
-    <p>
-      Catppuccin consists of 4 beautiful pastel color palettes, named <strong>flavors</strong>. The theme comes in one
-      light and three dark variants:
-      <ul>
-        <li>
-          <FlavorName flavor="latte" />: Our lightest theme harmoniously inverting the essence of Catppuccin's dark
-          themes.
-        </li>
-        <li>
-          <FlavorName flavor="frappe" />: A less vibrant alternative using subdued colors for a muted aesthetic.
-        </li>
-        <li>
-          <FlavorName flavor="macchiato" />: Medium contrast with gentle colors creating a soothing atmosphere.
-        </li>
-        <li>
-          <FlavorName flavor="mocha" />: The Original — Our darkest variant offering a cozy feeling with color-rich
-          accents.
-        </li>
-      </ul>
-      <p>
-        If you'd like to use them for your own project, refer to our
-        <a href=`${githubUrl}/catppuccin/blob/main/docs/style-guide.md`>style guide</a>
-        for general use cases and guidelines. Additionally, you can find integrations with popular frameworks and tools in
-        <a href=`${githubUrl}/palette`>catppuccin/palette</a>.
-      </p>
+    <p class="intro-text">
+      Catppuccin consists of 4 beautiful pastel color palettes, named <strong>flavors</strong>. Hover over any color to
+      copy its hex value.
+    </p>
+    <p class="intro-subtext">
+      If you'd like to use them for your own project, refer to our
+      <a href=`${githubUrl}/catppuccin/blob/main/docs/style-guide.md`>style guide</a>
+      for general use cases and guidelines.
     </p>
 
-    <section class="flavor-grid">
-      {
-        flavorEntries.map(([flavorName, flavor]) => (
-          <div class="flavor">
-            <details open>
-              <summary>
-                <h2 id={`flavor-${flavorName}`} class="flavor-name">
-                  <FlavorName flavor={flavorName} bold={false} />
-                </h2>
-              </summary>
-              <p class="flavor-hint">Click to copy hex • Hold for more formats</p>
-              <div class="color-list">
-                {Object.values(flavor.colors).map(({ hex, rgb, hsl, oklch, name }) => (
-                  <ColorContextMenu
-                    client:load
-                    flavorName={flavorName}
-                    {name}
-                    {hex}
-                    rgb={toRgb(rgb)}
-                    hsl={toHsl(hsl)}
-                    oklch={toOklch(oklch)}>
-                    <div class="color-list-entry" style={`--current-color: ${hex}`}>
-                      <div class="color-swatch" />
-                      <span class="color-name">{name}</span>
-                    </div>
-                  </ColorContextMenu>
-                ))}
-              </div>
-            </details>
+    <p class="flavor-stats">4 flavors & {colorNames.length} colours</p>
+
+    {
+      Object.entries(colorGroups).map(([groupName, colors]) => (
+        <section class="color-section">
+          <h2 class="section-title">{groupName}</h2>
+          <div class="color-table">
+            <div class="table-header">
+              <div class="header-color">Color</div>
+              {flavorNames.map((name) => (
+                <div class="header-flavor">{name}</div>
+              ))}
+            </div>
+            {colors.map((colorName) => (
+              <ColorRow
+                client:load
+                colorName={colorName}
+                flavors={{
+                  latte: flavors.latte.colors[colorName as keyof typeof flavors.latte.colors].hex,
+                  frappe: flavors.frappe.colors[colorName as keyof typeof flavors.frappe.colors].hex,
+                  macchiato: flavors.macchiato.colors[colorName as keyof typeof flavors.macchiato.colors].hex,
+                  mocha: flavors.mocha.colors[colorName as keyof typeof flavors.mocha.colors].hex,
+                }}
+              />
+            ))}
           </div>
-        ))
-      }
-    </section>
+        </section>
+      ))
+    }
   </PageIntro>
 
   <style lang="scss">
@@ -95,86 +100,82 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
       --accent-color: var(--mauve);
     }
 
-    summary {
-      cursor: pointer;
+    .intro-text {
+      font-size: 1.8rem;
+      color: var(--text);
+      margin-block-end: var(--space-xs);
     }
 
-    .flavor-hint {
-      font-size: 1.5rem;
+    .intro-subtext {
+      font-size: 1.6rem;
       color: var(--subtext0);
-      margin-block-start: 0.25rem;
-      margin-block-end: 0;
+      margin-block-end: var(--space-md);
+    }
+
+    .flavor-stats {
       font-family: monospace;
+      font-size: 1.4rem;
+      color: var(--subtext0);
+      margin-block-end: var(--space-lg);
     }
 
-    .flavor {
-      @include utils.containerPadding();
-      margin-block-start: var(--space-md);
+    .color-section {
+      margin-block-end: var(--space-xl);
+    }
 
-      border-radius: var(--border-radius-normal);
+    .section-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-block-end: var(--space-md);
+      padding-block-end: var(--space-xs);
+      border-bottom: 1px solid var(--surface0);
+    }
+
+    .color-table {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
       background: var(--mantle);
-
-      overflow-x: auto;
+      border-radius: var(--border-radius-normal);
+      overflow: hidden;
     }
 
-    .flavor-name,
-    .color-name {
+    .table-header {
+      display: grid;
+      grid-template-columns: 1fr repeat(4, 1fr);
+      gap: var(--space-xs);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface0);
+      font-family: monospace;
+      font-size: 1.4rem;
+      color: var(--subtext0);
       text-transform: capitalize;
     }
 
-    .flavor-name {
-      font-size: inherit;
+    .header-color {
+      font-weight: 600;
     }
 
-    .color-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
-      gap: var(--space-sm);
-      margin-block-start: var(--space-md);
-    }
-
-    .color-list-entry {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: var(--border-radius-normal);
-      gap: 1rem;
-      cursor: pointer;
-      padding: 2px;
-
-      &:hover {
-        background: var(--surface0);
-      }
-    }
-
-    .color-swatch {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      border-radius: var(--border-radius-normal);
-      background-color: var(--current-color);
-      border: 2px solid color-mix(in srgb, var(--mantle), var(--text) 50%);
-    }
-
-    .color-name {
-      font-family: monospace;
-      font-size: 1.5rem;
+    .header-flavor {
       text-align: center;
-      word-break: normal;
-      overflow-wrap: normal;
     }
 
-    @media (max-width: 600px) {
-      .color-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+    @media (max-width: 768px) {
+      .table-header {
+        grid-template-columns: 1fr repeat(4, minmax(60px, 1fr));
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 1.2rem;
       }
 
-      .color-list-entry {
-        width: 100%;
+      .header-flavor {
+        font-size: 1.1rem;
       }
+    }
 
-      .color-name {
-        font-size: 1.5rem;
+    @media (max-width: 480px) {
+      .table-header {
+        display: none;
       }
     }
   </style>
