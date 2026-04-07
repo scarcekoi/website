@@ -111,8 +111,8 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
     }
 
     .color-list {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
       gap: var(--space-sm);
       margin-block-start: var(--space-md);
     }
@@ -123,7 +123,6 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
       align-items: center;
       border-radius: var(--border-radius-normal);
       gap: 1rem;
-      width: 8rem;
       cursor: pointer;
       padding: 2px;
 
