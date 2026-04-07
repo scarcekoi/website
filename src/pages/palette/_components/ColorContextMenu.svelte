@@ -1,9 +1,22 @@
 <script module lang="ts">
   import { writable } from "svelte/store";
-  const openMenuId = writable<string | null>(null);
+  export const openMenuId = writable<string | null>(null);
+
+  let ignoreNextClick = false;
 
   if (typeof window !== "undefined") {
-    window.addEventListener("click", () => openMenuId.set(null));
+    window.addEventListener("click", (e: MouseEvent) => {
+      const menu = document.querySelector(".context-menu");
+
+      if (ignoreNextClick) {
+        ignoreNextClick = false;
+        return;
+      }
+
+      if (!menu?.contains(e.target as Node)) {
+        openMenuId.set(null);
+      }
+    });
   }
 </script>
 
@@ -25,8 +38,13 @@
   let x = $state(0);
   let y = $state(0);
 
-  const onContextMenu = (e: MouseEvent) => {
+  const LONG_PRESS_MS = 250;
+  let pressTimer: ReturnType<typeof setTimeout>;
+  let longPress = false;
+
+  const onContextMenu = (e: PointerEvent) => {
     e.stopPropagation();
+
     const menuWidth = 240;
     const menuHeight = 160;
     const cx = e.clientX + window.scrollX;
@@ -36,12 +54,39 @@
     y = e.clientY + menuHeight > window.innerHeight ? cy - menuHeight : cy;
 
     openMenuId.set(id);
+    ignoreNextClick = true;
+  };
+
+  const handlePointerDown = (e: PointerEvent) => {
+    longPress = false;
+
+    pressTimer = setTimeout(() => {
+      longPress = true;
+      onContextMenu(e);
+    }, LONG_PRESS_MS);
+  };
+
+  const handlePointerUp = async () => {
+    clearTimeout(pressTimer);
+
+    if (!longPress) {
+      await navigator.clipboard.writeText(hex);
+    }
+  };
+
+  const handlePointerLeave = () => {
+    clearTimeout(pressTimer);
   };
 </script>
 
 <svelte:window onkeydown={(e) => e.key === "Escape" && openMenuId.set(null)} />
 
-<div class="wrapper" onclick={onContextMenu}>
+<div
+  class="wrapper"
+  onpointerdown={handlePointerDown}
+  onpointerup={handlePointerUp}
+  onpointerleave={handlePointerLeave}
+>
   {@render children()}
 </div>
 
