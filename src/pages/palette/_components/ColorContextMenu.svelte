@@ -46,12 +46,14 @@
     e.stopPropagation();
 
     const menuWidth = 240;
-    const menuHeight = 160;
     const cx = e.clientX + window.scrollX;
-    const cy = e.clientY + window.scrollY;
 
     x = e.clientX + menuWidth > window.innerWidth ? Math.max(0, cx - menuWidth) : cx;
-    y = e.clientY + menuHeight > window.innerHeight ? cy - menuHeight : cy;
+
+    if (window.innerWidth > 600) {
+      const cy = e.clientY + window.scrollY;
+      y = e.clientY + 160 > window.innerHeight ? cy - 160 : cy;
+    }
 
     openMenuId.set(id);
     ignoreNextClick = true;
@@ -90,6 +92,16 @@
   const handlePointerLeave = () => {
     clearTimeout(pressTimer);
   };
+
+  let isMobile = false;
+
+  if (typeof window !== 'undefined') {
+    const checkMobile = () => {
+      isMobile = window.innerWidth <= 600;
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+  }
 </script>
 
 <svelte:window onkeydown={(e) => e.key === "Escape" && openMenuId.set(null)} />
@@ -110,7 +122,11 @@
 {/if}
 
 {#if visible}
-  <div class="context-menu" style={`left: ${x}px; top: ${y}px`} onclick={(e) => e.stopPropagation()}>
+  <div
+    class="context-menu"
+    style={`left: ${isMobile ? '50%' : x + 'px'}; ${isMobile ? '' : `top: ${y}px`}`}
+    onclick={(e) => e.stopPropagation()}
+  >
     <div class="menu-header">
       <div class="menu-title">{name}</div>
       <button class="close-btn" onclick={() => openMenuId.set(null)}>✕</button>
@@ -206,13 +222,13 @@
     color: var(--red);
   }
 
-    .menu-items :global(button.success) {
-      background: var(--surface0);
-    }
+  .menu-items :global(button.success) {
+    background: var(--surface0);
+  }
 
-    .menu-items :global(button.failed) {
-      background: var(--surface0);
-    }
+  .menu-items :global(button.failed) {
+    background: var(--surface0);
+  }
 
   .menu-value {
     color: inherit;
@@ -245,9 +261,16 @@
 
   @media (max-width: 600px) {
     .context-menu {
-      font-size: 1.5rem;
+      position: fixed !important;
+      bottom: 2rem !important;
+      left: 2rem !important;
+      right: 2rem !important;
+      transform: none !important;
+      width: auto !important;
+      max-width: none;
+      border-radius: var(--border-radius-normal) var(--border-radius-normal) 0 0;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
     }
-
     .menu-title {
       font-size: 1.75rem;
     }
