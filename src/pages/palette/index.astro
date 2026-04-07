@@ -66,7 +66,14 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
               <p class="flavor-hint">Click to copy hex • Hold for more formats</p>
               <div class="color-list">
                 {Object.values(flavor.colors).map(({ hex, rgb, hsl, oklch, name }) => (
-                  <ColorContextMenu client:load {name} {hex} rgb={toRgb(rgb)} hsl={toHsl(hsl)} oklch={toOklch(oklch)}>
+                  <ColorContextMenu
+                    client:load
+                    flavorName={flavorName}
+                    {name}
+                    {hex}
+                    rgb={toRgb(rgb)}
+                    hsl={toHsl(hsl)}
+                    oklch={toOklch(oklch)}>
                     <div class="color-list-entry" style={`--current-color: ${hex}`}>
                       <div class="color-swatch" />
                       <span class="color-name">{name}</span>

@@ -24,13 +24,14 @@
   import { type Snippet } from "svelte";
   import CopyToClipboardIcon from "./CopyToClipboardButton.svelte";
 
-  let { name, hex, rgb, hsl, oklch, children }: {
+  let { name, hex, rgb, hsl, oklch, children, flavorName }: {
     name: string;
     hex: string;
     rgb: string;
     hsl: string;
     oklch: string;
     children: Snippet;
+    flavorName?: string;
   } = $props();
 
   const id = hex;
@@ -128,7 +129,7 @@
     onclick={(e) => e.stopPropagation()}
   >
     <div class="menu-header">
-      <div class="menu-title">{name}</div>
+      <div class="menu-title">{flavorName ? `${flavorName} ${name}` : name}</div>
       <button class="close-btn" onclick={() => openMenuId.set(null)}>✕</button>
     </div>
     <div class="menu-items">
@@ -260,6 +261,10 @@
   }
 
   @media (max-width: 600px) {
+    .wrapper {
+      display: block;
+    }
+
     .context-menu {
       position: fixed !important;
       bottom: 2rem !important;

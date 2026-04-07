@@ -50,7 +50,7 @@
   };
 </script>
 
-<button class="btn btn-small btn-transparent {stateClass}" onclick={copyToClipboard}>
+<button class="btn btn-small btn-transparent {stateClass}" on:click={(e) => { e.stopPropagation(); e.preventDefault(); copyToClipboard(); }}>
   <span class="copy-icon">
     <svg width="12" height="12" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
       {#if stateClass == "success"}
