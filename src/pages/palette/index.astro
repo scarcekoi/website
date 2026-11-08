@@ -18,7 +18,7 @@ const toHsl = (hsl: ColorFormat["hsl"]) => {
   return `hsl(${Math.round(hsl.h)}deg, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%)`;
 };
 const toOklch = (oklch: ColorFormat["oklch"]) => {
-  return `oklch(${Math.round(oklch.l * 100)}%, ${Math.round(oklch.c * 100)}% ${Math.round(oklch.h)}deg)`;
+  return `oklch(${oklch.l.toFixed(3)} ${oklch.c.toFixed(3)} ${oklch.h.toFixed(3)})`;
 };
 ---
 
@@ -46,9 +46,11 @@ const toOklch = (oklch: ColorFormat["oklch"]) => {
         </li>
       </ul>
       <p>
-        If you'd like to use them for your own project, refer to our
-        <a href=`${githubUrl}/catppuccin/blob/main/docs/style-guide.md`>style guide</a>
-        for general use cases and guidelines. Additionally, you can find integrations with popular frameworks and tools in
+        If you'd like to use them for your own project, refer to our{" "}
+        <a href=`${githubUrl}/catppuccin/blob/main/docs/style-guide.md`>style guide</a>{" "}
+        for general use cases and guidelines. Additionally, you can find integrations with popular frameworks and tools in{
+          " "
+        }
         <a href=`${githubUrl}/palette`>catppuccin/palette</a>.
       </p>
     </p>
